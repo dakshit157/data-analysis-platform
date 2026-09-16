@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://data-analysis-backend-3ca5.onrender.com/api',
 })
 
 api.interceptors.response.use(
@@ -35,9 +35,9 @@ export const postFilter = (id, filters) => api.post(`/filter/${id}`, { filters }
 export const postCustomChart = (id, params) => api.post(`/explore/${id}/custom`, params)
 
 export const exportCSV = (id) => {
-  window.location.href = `/api/export/${id}/csv`
+  window.location.href = `https://data-analysis-backend-3ca5.onrender.com/export/${id}/csv`
 }
 
 export const exportSummary = (id) => {
-  window.location.href = `/api/export/${id}/summary`
+  window.location.href = `https://data-analysis-backend-3ca5.onrender.com/export/${id}/summary`
 }
