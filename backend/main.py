@@ -5,13 +5,11 @@ from routers import upload, analysis, correlation, insights, filter, export
 
 app = FastAPI(title="DataLens API")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000" , "https://data-analysis-platform-lake.vercel.app"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+allow_origins=[
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://data-analysis-platform-lake.vercel.app",
+],
 
 app.include_router(upload.router, prefix="/api", tags=["Upload"])
 app.include_router(analysis.router, prefix="/api", tags=["Analysis"])
