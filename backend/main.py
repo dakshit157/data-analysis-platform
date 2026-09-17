@@ -1,19 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from routers import upload, analysis, correlation, insights, filter, export
 
 app = FastAPI(title="DataLens API")
 
-allow_origins = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "https://data-analysis-platform-lake.vercel.app",
-]
+# CORS origins from environment variable (comma-separated)
+# Default includes local dev and placeholder for production
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_origins,
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
