@@ -56,7 +56,13 @@ export function DataProvider({ children }) {
       handleUploadResponse(data)
       toast.success('Dataset uploaded successfully')
     } catch (error) {
-      toast.error('Failed to upload dataset')
+      if (error.response?.status === 413) {
+        toast.error('File too large. Maximum size is 20MB.')
+      } else if (error.response?.data?.detail) {
+        toast.error(error.response.data.detail)
+      } else {
+        toast.error('Failed to upload dataset')
+      }
       console.error(error)
     } finally {
       setLoading(false)

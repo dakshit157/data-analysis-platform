@@ -65,9 +65,9 @@ export default function FileUploader() {
             <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200">
               {loading ? 'Uploading...' : 'Click or drag file to this area to upload'}
             </h3>
-            <p className="text-slate-500 dark:text-slate-400 mt-2">
-              Support for a single CSV file. Maximum size 50MB.
-            </p>
+<p className="text-slate-500 dark:text-slate-400 mt-2">
+                Support for a single CSV file. Maximum size 20MB.
+              </p>
           </div>
           
           {!loading && (
