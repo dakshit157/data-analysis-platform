@@ -1,104 +1,159 @@
 # 📊 DataLens — Interactive Data Analysis Platform
 
-> Turn raw CSV data into insights, visualizations, and actionable observations — directly from your browser.
+**DataLens** is a full-stack web application that makes data analysis easier by turning raw datasets into an interactive dashboard.
 
-**DataLens** is a full-stack data analysis platform built for exploring CSV datasets without writing analysis code manually. Upload a dataset, inspect its quality, explore visualizations, discover correlations, apply filters, and export your results from one interactive dashboard.
+Upload your dataset, explore its structure and quality, generate visualizations, discover correlations, get automatic insights, apply filters, and export your results — all from one platform.
 
-## 🌐 Live Demo
+🔗 **Live Demo:** https://data-analysis-platform-lake.vercel.app/
 
-**Frontend:** https://data-analysis-platform-lake.vercel.app
-
-**Backend API:** https://data-analysis-backend-3ca5.onrender.com
-
-**API Docs:** https://data-analysis-backend-3ca5.onrender.com/docs
+💻 **GitHub:** https://github.com/dakshit157/data-analysis-platform
 
 ---
 
-## ✨ What DataLens Can Do
+## ✨ Features
 
-### 📂 Upload & Understand
-- Drag-and-drop or click-to-upload CSV files
-- Automatic CSV validation
-- Automatic column type detection
-- Instant dataset preview
+### 📂 Dataset Upload
 
-### 🔎 Explore Your Data
-- Row and column statistics
-- Missing-value analysis
+- Upload **CSV, Excel, and JSON** files
+- Maximum file size: **20 MB**
+- Automatic dataset validation
+- Automatic schema and data type detection
+- Dataset preview
+
+### 📋 Dataset Overview
+
+View important information about your dataset:
+
+- Number of rows
+- Number of columns
+- Missing values
+- Duplicate rows
+- Column data types
+- Dataset preview
+
+### 🧹 Data Quality Analysis
+
+Analyze the quality of your data with:
+
+- Missing value analysis
+- Missing value percentages
+- Data type distribution
 - Duplicate detection
-- Data-type distribution
 - IQR-based outlier detection
 
-### 📈 Visualize
-- Automatically generated charts based on column types
+### 📈 Automatic Data Analysis
+
+DataLens automatically generates visualizations based on the dataset:
+
+- Histograms
 - Bar charts
 - Line charts
-- Scatter plots
-- Pie charts
-- Histograms
-- Box plots
-- Custom chart configuration
+- Time-series visualizations
+- Distribution analysis
 
-### 🔗 Find Relationships
+### 📊 Interactive Visualizations
+
+Create your own charts using:
+
+- Bar Chart
+- Line Chart
+- Scatter Plot
+- Pie Chart
+- Histogram
+- Box Plot
+
+Choose columns and aggregation options to customize your visualizations.
+
+### 🔗 Correlation Analysis
+
+Explore relationships between numerical columns using:
+
 - Correlation matrix
 - Heatmap visualization
-- Strongest positive and negative correlations
+- Strongest positive correlations
+- Strongest negative correlations
 
-### 💡 Discover Insights
-- 18+ automatically generated observations
-- Insights are calculated from the uploaded dataset
-- No fabricated or hardcoded data-driven results
+### 💡 Automatic Insights
 
-### 🎛️ Filter & Export
-- Dynamic filters based on column types
-- Numeric range filtering
-- Categorical filtering
-- Export filtered CSV
-- Export analysis summary as JSON
-- Export chart screenshots
+DataLens generates **18+ data-driven insights** based on the uploaded dataset.
 
-### 🎨 User Experience
-- Dark / Light mode
+Insights can highlight:
+
+- Important patterns
+- Distributions
+- Missing data
+- Outliers
+- Correlations
+- High/low values
+- Category-level observations
+
+### 🎛️ Dynamic Filters
+
+Filter your dataset interactively using column-specific operators.
+
+Supported filters adapt according to the selected column's data type.
+
+### 📥 Export Results
+
+Export your analysis results as:
+
+- Filtered CSV
+- Summary JSON
+- Chart screenshots
+
+### 🌙 User Interface
+
+- Dark mode
+- Light mode
 - Responsive dashboard
-- Collapsible sidebar
-- Desktop, tablet, and mobile support
+- Drag-and-drop upload
+- Interactive charts
+- Clean data analysis interface
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 18, Vite, Tailwind CSS 4, Recharts |
-| Backend | Python, FastAPI, Pandas, NumPy, SciPy |
-| HTTP Client | Axios |
-| Icons | Lucide React |
-| Notifications | react-hot-toast |
-| Frontend Hosting | Vercel |
-| Backend Hosting | Render |
+### Frontend
+
+- React 18
+- Vite
+- Tailwind CSS
+- Recharts
+- Lucide React
+- Axios
+- React Hot Toast
+
+### Backend
+
+- Python
+- FastAPI
+- Pandas
+- NumPy
+- SciPy
+
+### Deployment
+
+- Frontend → Vercel
+- Backend → Render
 
 ---
 
-## 🏗️ Project Structure
+## 📁 Project Structure
 
 ```text
 data-analysis-platform/
+│
 ├── backend/
+│   ├── data/
 │   ├── models/
 │   ├── routers/
 │   ├── services/
-│   ├── data/
 │   ├── main.py
 │   └── requirements.txt
 │
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   └── services/
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-│
-└── README.md
+└── frontend/
+    ├── src/
+    ├── index.html
+    ├── package.json
+    └── vite.config.js
