@@ -4,21 +4,29 @@ import os
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from models.schemas import UploadResponse
 from services.csv_processor import (
-    read_csv,
-    validate_csv,
+    read_file,
+    validate_file,
     classify_columns,
     get_preview,
-    store_dataset
+    store_dataset,
+    SUPPORTED_FORMATS,
+    MAX_FILE_SIZE,
 )
 
 router = APIRouter()
 
-# Maximum upload size: 20 MB
-MAX_FILE_SIZE = 20 * 1024 * 1024
-
 
 @router.post("/upload", response_model=UploadResponse)
 async def upload_file(file: UploadFile = File(...)):
+
+    # Check file extension
+    filename = file.filename or ""
+    ext = '.' + filename.lower().split('.')[-1] if '.' in filename else ''
+    if ext not in SUPPORTED_FORMATS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported format: {ext}. Supported: {', '.join(SUPPORTED_FORMATS.keys())}"
+        )
 
     # Read uploaded file
     contents = await file.read()
@@ -27,13 +35,13 @@ async def upload_file(file: UploadFile = File(...)):
     if len(contents) > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=413,
-            detail="File is too large. Maximum allowed size is 20 MB."
+            detail=f"File is too large. Maximum allowed size is {MAX_FILE_SIZE // (1024*1024)} MB."
         )
 
-    # Process CSV
+    # Process file
     try:
-        df = read_csv(contents)
-        validate_csv(df)
+        df = read_file(contents, filename)
+        validate_file(df, filename)
     except ValueError as e:
         raise HTTPException(
             status_code=400,
@@ -85,13 +93,13 @@ async def upload_sample():
     if len(contents) > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=413,
-            detail="Sample dataset is too large. Maximum allowed size is 20 MB."
+            detail=f"Sample dataset is too large. Maximum allowed size is {MAX_FILE_SIZE // (1024*1024)} MB."
         )
 
     # Process CSV
     try:
-        df = read_csv(contents)
-        validate_csv(df)
+        df = read_file(contents, "sample.csv")
+        validate_file(df, "sample.csv")
     except ValueError as e:
         raise HTTPException(
             status_code=400,

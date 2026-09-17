@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Upload, Database, BarChart3, ShieldCheck, GitBranch, Download, Play, Loader2 } from 'lucide-react'
+import { Upload, Database, BarChart3, ShieldCheck, GitBranch, Download, Play, Loader2, FileSpreadsheet, FileText } from 'lucide-react'
 import { useData } from '../context/DataContext'
 
 export default function LandingPage() {
@@ -70,7 +70,7 @@ export default function LandingPage() {
               type="file" 
               ref={fileInputRef} 
               onChange={handleFileChange} 
-              accept=".csv" 
+              accept=".csv,.xlsx,.xls,.json" 
               className="hidden" 
             />
             <button 
@@ -81,6 +81,22 @@ export default function LandingPage() {
               {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Database className="w-5 h-5" />}
               {isUploading ? 'Loading...' : 'Try Sample Dataset'}
             </button>
+          </div>
+          
+          {/* Supported Formats Info */}
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-indigo-100 opacity-90">
+            <span className="flex items-center gap-1.5">
+              <FileSpreadsheet className="w-4 h-4" /> CSV
+            </span>
+            <span className="flex items-center gap-1.5">
+              <FileSpreadsheet className="w-4 h-4" /> Excel (.xlsx, .xls)
+            </span>
+            <span className="flex items-center gap-1.5">
+              <FileText className="w-4 h-4" /> JSON
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Upload className="w-4 h-4" /> Max 20MB
+            </span>
           </div>
         </div>
       </section>

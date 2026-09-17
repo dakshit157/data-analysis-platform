@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { Upload, FileType, AlertCircle } from 'lucide-react'
+import { Upload, FileType, AlertCircle, FileSpreadsheet, FileText } from 'lucide-react'
 import { useData } from '../../context/DataContext'
 
 export default function FileUploader() {
@@ -21,10 +21,13 @@ export default function FileUploader() {
     e.preventDefault()
     setIsDragging(false)
     const file = e.dataTransfer.files[0]
-    if (file && file.name.endsWith('.csv')) {
-      await uploadDataset(file)
-    } else {
-      alert("Please upload a .csv file")
+    if (file) {
+      const ext = '.' + file.name.split('.').pop().toLowerCase()
+      if (['.csv', '.xlsx', '.xls', '.json'].includes(ext)) {
+        await uploadDataset(file)
+      } else {
+        alert("Please upload a .csv, .xlsx, .xls, or .json file")
+      }
     }
   }, [uploadDataset])
 
@@ -52,7 +55,7 @@ export default function FileUploader() {
           type="file" 
           ref={fileInputRef} 
           onChange={onFileChange} 
-          accept=".csv" 
+          accept=".csv,.xlsx,.xls,.json" 
           className="hidden" 
         />
         
@@ -65,15 +68,25 @@ export default function FileUploader() {
             <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200">
               {loading ? 'Uploading...' : 'Click or drag file to this area to upload'}
             </h3>
-<p className="text-slate-500 dark:text-slate-400 mt-2">
-                Support for a single CSV file. Maximum size 20MB.
-              </p>
+            <p className="text-slate-500 dark:text-slate-400 mt-2">
+              Support for CSV, Excel (.xlsx, .xls), JSON. Maximum size 20MB.
+            </p>
           </div>
           
           {!loading && (
-            <div className="mt-6 flex items-center justify-center text-sm text-slate-400 dark:text-slate-500">
-              <FileType className="w-4 h-4 mr-2" />
-              Must be standard comma-separated values
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm text-slate-400 dark:text-slate-500">
+              <span className="flex items-center gap-1.5">
+                <FileSpreadsheet className="w-4 h-4" /> CSV
+              </span>
+              <span className="flex items-center gap-1.5">
+                <FileSpreadsheet className="w-4 h-4" /> Excel (.xlsx, .xls)
+              </span>
+              <span className="flex items-center gap-1.5">
+                <FileText className="w-4 h-4" /> JSON
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Upload className="w-4 h-4" /> Max 20MB
+              </span>
             </div>
           )}
         </div>
