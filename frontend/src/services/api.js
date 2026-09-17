@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://data-analysis-backend-3ca5.onrender.com/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api',
 })
 
 api.interceptors.response.use(
@@ -34,10 +34,12 @@ export const getInsights = (id) => api.get(`/insights/${id}`)
 export const postFilter = (id, filters) => api.post(`/filter/${id}`, { filters })
 export const postCustomChart = (id, params) => api.post(`/explore/${id}/custom`, params)
 
+const backendUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:8000'
+
 export const exportCSV = (id) => {
-  window.location.href = `https://data-analysis-backend-3ca5.onrender.com/export/${id}/csv`
+  window.location.href = `${backendUrl}/api/export/${id}/csv`
 }
 
 export const exportSummary = (id) => {
-  window.location.href = `https://data-analysis-backend-3ca5.onrender.com/export/${id}/summary`
+  window.location.href = `${backendUrl}/api/export/${id}/summary`
 }
