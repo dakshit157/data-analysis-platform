@@ -1,12 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Upload, Database, BarChart3, ShieldCheck, GitBranch, Download, Play } from 'lucide-react'
+import { Upload, Database, BarChart3, ShieldCheck, GitBranch, Download, Play, Loader2 } from 'lucide-react'
 import { useData } from '../context/DataContext'
 
 export default function LandingPage() {
   const navigate = useNavigate()
-  const { uploadDataset, loadSample } = useData()
+  const { uploadDataset, loadSample, loading } = useData()
   const fileInputRef = useRef(null)
+  const [isUploading, setIsUploading] = useState(false)
 
   const handleUploadClick = () => {
     fileInputRef.current?.click()
@@ -15,14 +16,22 @@ export default function LandingPage() {
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0]
     if (file) {
-      await uploadDataset(file)
-      navigate('/dashboard')
+      setIsUploading(true)
+      const success = await uploadDataset(file)
+      if (success) {
+        navigate('/dashboard')
+      }
+      setIsUploading(false)
     }
   }
 
   const handleSampleClick = async () => {
-    await loadSample()
-    navigate('/dashboard')
+    setIsUploading(true)
+    const success = await loadSample()
+    if (success) {
+      navigate('/dashboard')
+    }
+    setIsUploading(false)
   }
 
   const features = [
@@ -51,10 +60,11 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button 
               onClick={handleUploadClick}
-              className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-indigo-50 transition transform hover:-translate-y-1 flex items-center justify-center gap-2"
+              disabled={loading || isUploading}
+              className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-indigo-50 transition transform hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Upload className="w-5 h-5" />
-              Upload Dataset
+              {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
+              {isUploading ? 'Uploading...' : 'Upload Dataset'}
             </button>
             <input 
               type="file" 
@@ -65,10 +75,11 @@ export default function LandingPage() {
             />
             <button 
               onClick={handleSampleClick}
-              className="px-8 py-4 bg-indigo-500/30 text-white border border-indigo-300/30 font-semibold rounded-lg hover:bg-indigo-500/50 transition transform hover:-translate-y-1 flex items-center justify-center gap-2"
+              disabled={loading || isUploading}
+              className="px-8 py-4 bg-indigo-500/30 text-white border border-indigo-300/30 font-semibold rounded-lg hover:bg-indigo-500/50 transition transform hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Database className="w-5 h-5" />
-              Try Sample Dataset
+              {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Database className="w-5 h-5" />}
+              {isUploading ? 'Loading...' : 'Try Sample Dataset'}
             </button>
           </div>
         </div>

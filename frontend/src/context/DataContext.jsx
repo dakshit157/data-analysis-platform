@@ -55,15 +55,19 @@ export function DataProvider({ children }) {
       const data = await api.uploadFile(file)
       handleUploadResponse(data)
       toast.success('Dataset uploaded successfully')
+      return true
     } catch (error) {
       if (error.response?.status === 413) {
         toast.error('File too large. Maximum size is 20MB.')
       } else if (error.response?.data?.detail) {
         toast.error(error.response.data.detail)
+      } else if (error.code === 'ECONNABORTED') {
+        toast.error('Upload timeout. Please try a smaller file or check your connection.')
       } else {
         toast.error('Failed to upload dataset')
       }
       console.error(error)
+      return false
     } finally {
       setLoading(false)
     }
@@ -75,9 +79,15 @@ export function DataProvider({ children }) {
       const data = await api.loadSampleDataset()
       handleUploadResponse(data)
       toast.success('Sample dataset loaded')
+      return true
     } catch (error) {
-      toast.error('Failed to load sample dataset')
+      if (error.code === 'ECONNABORTED') {
+        toast.error('Request timeout. Please try again.')
+      } else {
+        toast.error('Failed to load sample dataset')
+      }
       console.error(error)
+      return false
     } finally {
       setLoading(false)
     }
